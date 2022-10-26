@@ -1,10 +1,13 @@
 {
     "compilerOptions": {
-    "outDir": "./dist",
-    "rootDir": "./src",
-    "jsx": "react",
-    "noEmitOnError": true,
-    "resolveJsonModule": true
+        "outDir": "./dist",
+        "rootDir": "./src",
+        "jsx": "react",
+        "noEmitOnError": true,
+        "resolveJsonModule": true,
+        "include": [
+            "**/*"
+        ],
     }
-    }
+}
     
