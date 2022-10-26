@@ -36,46 +36,42 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-var React = require("react");
-require('dotenv').config();
-var kola_1 = require("./kola");
-var data = require("./data");
-var ReactDOMServer = require('react-dom/server');
-var express = require('express');
-var app = express();
-var externalUrl = process.env.RENDER_EXTERNAL_URL;
-var port = externalUrl && process.env.PORT ? parseInt(process.env.PORT) : 4080;
-var bodyParser = require('body-parser');
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({
-    extended: true
-}));
-app.get('/', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var svaKola, _i, svaKola_1, el, _a;
-    return __generator(this, function (_b) {
-        switch (_b.label) {
-            case 0: return [4 /*yield*/, data.getAllKola()];
-            case 1:
-                svaKola = _b.sent();
-                _i = 0, svaKola_1 = svaKola;
-                _b.label = 2;
-            case 2:
-                if (!(_i < svaKola_1.length)) return [3 /*break*/, 5];
-                el = svaKola_1[_i];
-                _a = el;
-                return [4 /*yield*/, data.getUtakmiceByKolo(parseInt(el.id))];
-            case 3:
-                _a.utakmice = _b.sent();
-                _b.label = 4;
-            case 4:
-                _i++;
-                return [3 /*break*/, 2];
-            case 5:
-                res.send("\n        <div id=\"root\">\n            <h1>Velika Liga</h1>\n            <div>".concat(ReactDOMServer.renderToString(React.createElement(kola_1["default"], { svaKola: svaKola })), "</div>\n        </div>\n        "));
-                return [2 /*return*/];
-        }
-    });
-}); });
-app.listen(port, function () {
-    console.log("Aplikacija pokrenuta uspje\u0161no!");
+exports.getUtakmiceByKolo = exports.getAllKola = void 0;
+var Pool = require('pg').Pool;
+var pool = new Pool({
+    user: process.env.DB_USER,
+    host: process.env.DB_HOST,
+    database: 'rezultatiligedb',
+    password: process.env.DB_PASSWORD,
+    port: 5432,
+    ssl: true
 });
+pool.connect();
+function getAllKola() {
+    return __awaiter(this, void 0, void 0, function () {
+        var result;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, pool.query("SELECT * FROM kolo")];
+                case 1:
+                    result = _a.sent();
+                    return [2 /*return*/, result.rows];
+            }
+        });
+    });
+}
+exports.getAllKola = getAllKola;
+function getUtakmiceByKolo(idKola) {
+    return __awaiter(this, void 0, void 0, function () {
+        var result;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, pool.query("\n    SELECT utakmica.id, kolo.ime imeKola, utakmica.goldomaci, utakmica.golgosti, klubDomaci.ime domaci, klubGosti.ime gosti FROM utakmica\n    LEFT JOIN kolo ON kolo.id=utakmica.kolo\n    LEFT JOIN klub klubDomaci ON klubDomaci.id=utakmica.domaci\n    LEFT JOIN klub klubGosti ON klubGosti.id=utakmica.gosti\n    WHERE kolo.id = ".concat(idKola))];
+                case 1:
+                    result = _a.sent();
+                    return [2 /*return*/, result.rows];
+            }
+        });
+    });
+}
+exports.getUtakmiceByKolo = getUtakmiceByKolo;
