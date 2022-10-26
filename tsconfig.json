@@ -4,10 +4,10 @@
         "rootDir": "./src",
         "jsx": "react",
         "noEmitOnError": true,
-        "resolveJsonModule": true,
-        "include": [
-            "**/*"
-        ],
-    }
+        "resolveJsonModule": true
+    },
+    "include": [
+        "**/*"
+    ],
 }
     
