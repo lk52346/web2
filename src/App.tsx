@@ -62,6 +62,25 @@ app.post('/azurirajrezultat', requiresAuth(), async(req, res) =>{
   }
 })
 
+app.post('/azurirajkomentar', requiresAuth(), async(req, res) =>{
+  var komentar = await data.getKomentar(req.body.id)
+  if(req.oidc.user.email==komentar.komentator){
+    await data.azurirajKomentar(req.body);
+    res.redirect('/');
+  }else {
+    res.send("NOT AUTHORIZED");
+  }
+})
+
+app.post('/dodajkomentar', requiresAuth(), async(req, res) =>{
+  var komentar = req.body;
+  komentar.komentator = req.oidc.user.email;
+  const date = new Date();
+  komentar.vrijeme = date.toTimeString();
+  await data.postKomentar(komentar)
+  res.redirect('/');
+})
+
 app.post('/obrisikomentar', requiresAuth(), async(req, res) =>{
   var komentar = await data.getKomentar(req.body.id);
   if(admins.includes(req.oidc.user.email) || (komentar && komentar.komentator==req.oidc.user.email)){

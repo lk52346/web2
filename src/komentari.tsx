@@ -1,6 +1,6 @@
 import * as React from "react";
 import Rezultati from "./score";
-export default function Komentari ({sviKomentari, isAdmin, username}){
+export default function Komentari ({sviKomentari, isAdmin, username, kolo}){
     return (
       <div style={{marginLeft:100, marginBot:30}}>
         <h2>Komentari</h2>
@@ -17,11 +17,21 @@ export default function Komentari ({sviKomentari, isAdmin, username}){
                 </form>}
             </div>
             <p>{el.vrijeme.toString()}</p>
-            {username==el.komentator ? <textarea name="tekst" value={el.tekst}></textarea> : <p>{el.tekst}</p>}
+            {username==el.komentator ?
+            <form action="/azurirajkomentar" method="post">
+              <input type="hidden" name="id" value={el.id}></input>
+              <textarea name="tekst" value={el.tekst} width="100"></textarea>
+              <input type="submit" value="Uredi komentar"></input>
+            </form> : <p>{el.tekst}</p>}
             <hr></hr>
           </div>
           )
         })}
+        <form action="/dodajkomentar" method="post">
+          <input type="hidden" name="kolo" value={kolo}></input>
+          <input name="tekst"></input>
+          <input type="submit" value="Komentiraj"></input>
+        </form>
       </div>
     );
 }

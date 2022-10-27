@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.deleteKomentar = exports.getKomentar = exports.getKomentariKola = exports.azurirajRezultat = exports.postRezultat = exports.getBodoviKluba = exports.getKluboviSaGolovima = exports.getUtakmiceByKolo = exports.getAllKola = void 0;
+exports.deleteKomentar = exports.getKomentar = exports.getKomentariKola = exports.azurirajKomentar = exports.azurirajRezultat = exports.postKomentar = exports.postRezultat = exports.getBodoviKluba = exports.getKluboviSaGolovima = exports.getUtakmiceByKolo = exports.getAllKola = void 0;
 var Pool = require('pg').Pool;
 var pool = new Pool({
     user: process.env.DB_USER,
@@ -142,6 +142,19 @@ function postRezultat(utakmica) {
     });
 }
 exports.postRezultat = postRezultat;
+function postKomentar(komentar) {
+    return __awaiter(this, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, pool.query("\n        INSERT INTO komentar(komentator, tekst, vrijeme, kolo) VALUES\n        ('".concat(komentar.komentator, "', '").concat(komentar.tekst, "', '").concat(komentar.vrijeme, "', ").concat(komentar.kolo, ")\n        "))];
+                case 1:
+                    _a.sent();
+                    return [2 /*return*/];
+            }
+        });
+    });
+}
+exports.postKomentar = postKomentar;
 function azurirajRezultat(utakmica) {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {
@@ -155,6 +168,19 @@ function azurirajRezultat(utakmica) {
     });
 }
 exports.azurirajRezultat = azurirajRezultat;
+function azurirajKomentar(komentar) {
+    return __awaiter(this, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, pool.query("\n        UPDATE komentar SET tekst = ".concat(komentar.tekst, " WHERE id=").concat(komentar.id, "\n        "))];
+                case 1:
+                    _a.sent();
+                    return [2 /*return*/];
+            }
+        });
+    });
+}
+exports.azurirajKomentar = azurirajKomentar;
 function getKomentariKola(id) {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {

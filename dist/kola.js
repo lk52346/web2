@@ -18,7 +18,7 @@ function Kola(_a) {
                     React.createElement("input", { size: "1", placeholder: "0", name: "golgosti" }),
                     React.createElement("input", { size: "15", placeholder: "Klub gostiju", name: "imegosti" }),
                     React.createElement("input", { type: "submit", value: "Dodaj" })),
-            React.createElement(komentari_1["default"], { sviKomentari: el.komentari, isAdmin: isAdmin, username: username })));
+            React.createElement(komentari_1["default"], { sviKomentari: el.komentari, isAdmin: isAdmin, username: username, kolo: el.id })));
     })));
 }
 exports["default"] = Kola;

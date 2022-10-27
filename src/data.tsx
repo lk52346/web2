@@ -80,10 +80,27 @@ export async function postRezultat(utakmica){
     );
 }
 
+export async function postKomentar(komentar){
+    await pool.query(
+        `
+        INSERT INTO komentar(komentator, tekst, vrijeme, kolo) VALUES
+        ('${komentar.komentator}', '${komentar.tekst}', '${komentar.vrijeme}', ${komentar.kolo})
+        `
+    );
+}
+
 export async function azurirajRezultat(utakmica){
     await pool.query(
         `
         UPDATE utakmica SET goldomaci = ${utakmica.goldomaci}, golgosti = ${utakmica.golgosti} WHERE id=${utakmica.id}
+        `
+    );
+}
+
+export async function azurirajKomentar(komentar){
+    await pool.query(
+        `
+        UPDATE komentar SET tekst = ${komentar.tekst} WHERE id=${komentar.id}
         `
     );
 }

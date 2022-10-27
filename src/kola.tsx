@@ -20,7 +20,7 @@ export default function Kola ({svaKola, isAdmin, username}){
               <input type="submit" value="Dodaj"></input>
             </form>
             }
-            <Komentari sviKomentari={el.komentari} isAdmin={isAdmin} username={username}></Komentari>
+            <Komentari sviKomentari={el.komentari} isAdmin={isAdmin} username={username} kolo={el.id}></Komentari>
           </div>
           
           )

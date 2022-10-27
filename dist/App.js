@@ -48,7 +48,7 @@ var externalUrl = process.env.RENDER_EXTERNAL_URL;
 var port = externalUrl && process.env.PORT ? parseInt(process.env.PORT) : 4080;
 var bodyParser = require('body-parser');
 var _a = require('express-openid-connect'), auth = _a.auth, requiresAuth = _a.requiresAuth;
-var admins = ["luka.kusec@hotmail.com"];
+var admins = ["luka.kusec@hotmail.com", "bomecmsnagbujctppr@tmmwj.net"];
 var config = {
     authRequired: false,
     auth0Logout: true,
@@ -96,6 +96,42 @@ app.post('/azurirajrezultat', requiresAuth(), function (req, res) { return __awa
                 res.send("NOT AUTHORIZED");
                 _a.label = 3;
             case 3: return [2 /*return*/];
+        }
+    });
+}); });
+app.post('/azurirajkomentar', requiresAuth(), function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var komentar;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, data.getKomentar(req.body.id)];
+            case 1:
+                komentar = _a.sent();
+                if (!(req.oidc.user.email == komentar.komentator)) return [3 /*break*/, 3];
+                return [4 /*yield*/, data.azurirajKomentar(req.body)];
+            case 2:
+                _a.sent();
+                res.redirect('/');
+                return [3 /*break*/, 4];
+            case 3:
+                res.send("NOT AUTHORIZED");
+                _a.label = 4;
+            case 4: return [2 /*return*/];
+        }
+    });
+}); });
+app.post('/dodajkomentar', requiresAuth(), function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var komentar;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                komentar = req.body;
+                komentar.komentator = req.oidc.user.email;
+                komentar.vrijeme = Date.now().toString();
+                return [4 /*yield*/, data.postKomentar(komentar)];
+            case 1:
+                _a.sent();
+                res.redirect('/');
+                return [2 /*return*/];
         }
     });
 }); });
