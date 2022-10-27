@@ -6,7 +6,7 @@
   "scripts": {
     "build": "npm run clean; tsc; ls; ls ..",
     "buildW": "npm run cleanW && tsc && node dist/App.js",
-    "cleanW": "rmdir /s /q dist",
+    "cleanW": "if exist dist rmdir /s /q dist",
     "clean": "rm -rf dist",
     "copy-views": "cp -r src/views/ dist/views/",
     "start": "node ./App.js"
@@ -22,6 +22,7 @@
     "@types/pg": "^8.6.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
+    "express-openid-connect": "^2.9.0",
     "pg": "^8.8.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"

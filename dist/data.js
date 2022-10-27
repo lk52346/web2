@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.getUtakmiceByKolo = exports.getAllKola = void 0;
+exports.deleteKomentar = exports.getKomentar = exports.getKomentariKola = exports.azurirajRezultat = exports.postRezultat = exports.getBodoviKluba = exports.getKluboviSaGolovima = exports.getUtakmiceByKolo = exports.getAllKola = void 0;
 var Pool = require('pg').Pool;
 var pool = new Pool({
     user: process.env.DB_USER,
@@ -75,3 +75,118 @@ function getUtakmiceByKolo(idKola) {
     });
 }
 exports.getUtakmiceByKolo = getUtakmiceByKolo;
+function getKluboviSaGolovima() {
+    return __awaiter(this, void 0, void 0, function () {
+        var klubovi, _i, klubovi_1, klub, _a, _b;
+        return __generator(this, function (_c) {
+            switch (_c.label) {
+                case 0: return [4 /*yield*/, pool.query("\n    SELECT * FROM klub\n    ")];
+                case 1:
+                    klubovi = (_c.sent()).rows;
+                    _i = 0, klubovi_1 = klubovi;
+                    _c.label = 2;
+                case 2:
+                    if (!(_i < klubovi_1.length)) return [3 /*break*/, 6];
+                    klub = klubovi_1[_i];
+                    _a = klub;
+                    return [4 /*yield*/, pool.query("\n            SELECT SUM(\n                CASE\n                    WHEN utakmica.domaci = ".concat(klub.id, " THEN utakmica.goldomaci\n                    WHEN utakmica.gosti = ").concat(klub.id, " THEN utakmica.golgosti\n                    ELSE 0\n                END\n            ) FROM utakmica WHERE utakmica.domaci = ").concat(klub.id, " OR utakmica.gosti = ").concat(klub.id, "\n            "))];
+                case 3:
+                    _a.golovi = (_c.sent()).rows[0].sum;
+                    _b = klub;
+                    return [4 /*yield*/, getBodoviKluba(klub.id)];
+                case 4:
+                    _b.bodovi = _c.sent();
+                    _c.label = 5;
+                case 5:
+                    _i++;
+                    return [3 /*break*/, 2];
+                case 6: return [2 /*return*/, klubovi.sort(function (a, b) {
+                        if (a.bodovi == b.bodovi)
+                            return b.golovi - a.golovi;
+                        else
+                            return b.bodovi - a.bodovi;
+                    })];
+            }
+        });
+    });
+}
+exports.getKluboviSaGolovima = getKluboviSaGolovima;
+function getBodoviKluba(id) {
+    return __awaiter(this, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, pool.query("\n        SELECT SUM(\n            CASE\n                WHEN domaci = ".concat(id, " AND goldomaci > golgosti THEN 3\n                WHEN gosti = ").concat(id, " AND golgosti > goldomaci THEN 3\n                WHEN golgosti = goldomaci THEN 1\n                ELSE 0\n            END\n        ) FROM utakmica WHERE utakmica.domaci = ").concat(id, " OR utakmica.gosti = ").concat(id, "\n        "))];
+                case 1: return [2 /*return*/, (_a.sent()).rows[0].sum];
+            }
+        });
+    });
+}
+exports.getBodoviKluba = getBodoviKluba;
+function postRezultat(utakmica) {
+    return __awaiter(this, void 0, void 0, function () {
+        var domaci, gosti;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, pool.query("SELECT id FROM klub WHERE ime LIKE '%".concat(utakmica.imedomaci, "%'"))];
+                case 1:
+                    domaci = (_a.sent()).rows[0].id;
+                    return [4 /*yield*/, pool.query("SELECT id FROM klub WHERE ime LIKE '%".concat(utakmica.imegosti, "%'"))];
+                case 2:
+                    gosti = (_a.sent()).rows[0].id;
+                    return [4 /*yield*/, pool.query("\n        INSERT INTO utakmica(kolo, domaci, gosti, goldomaci, golgosti) VALUES\n        (".concat(utakmica.kolo, ", ").concat(domaci, ", ").concat(gosti, ", ").concat(utakmica.goldomaci, ", ").concat(utakmica.golgosti, ")\n        "))];
+                case 3:
+                    _a.sent();
+                    return [2 /*return*/];
+            }
+        });
+    });
+}
+exports.postRezultat = postRezultat;
+function azurirajRezultat(utakmica) {
+    return __awaiter(this, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, pool.query("\n        UPDATE utakmica SET goldomaci = ".concat(utakmica.goldomaci, ", golgosti = ").concat(utakmica.golgosti, " WHERE id=").concat(utakmica.id, "\n        "))];
+                case 1:
+                    _a.sent();
+                    return [2 /*return*/];
+            }
+        });
+    });
+}
+exports.azurirajRezultat = azurirajRezultat;
+function getKomentariKola(id) {
+    return __awaiter(this, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, pool.query("\n        SELECT * FROM komentar WHERE kolo = ".concat(id, "\n        "))];
+                case 1: return [2 /*return*/, (_a.sent()).rows];
+            }
+        });
+    });
+}
+exports.getKomentariKola = getKomentariKola;
+function getKomentar(id) {
+    return __awaiter(this, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, pool.query("\n        SELECT * FROM komentar WHERE id = ".concat(id, "\n        "))];
+                case 1: return [2 /*return*/, (_a.sent()).rows[0]];
+            }
+        });
+    });
+}
+exports.getKomentar = getKomentar;
+function deleteKomentar(id) {
+    return __awaiter(this, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, pool.query("\n        DELETE FROM komentar WHERE id = ".concat(id, "\n        "))];
+                case 1:
+                    _a.sent();
+                    return [2 /*return*/];
+            }
+        });
+    });
+}
+exports.deleteKomentar = deleteKomentar;
