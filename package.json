@@ -4,12 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "npm run clean; tsc;",
+    "build": "npm run clean; tsc; ls; ls ..",
     "buildW": "npm run cleanW && tsc && node dist/App.js",
     "cleanW": "rmdir /s /q dist",
     "clean": "rm -rf dist",
     "copy-views": "cp -r src/views/ dist/views/",
-    "start": "node ../dist/App.js"
+    "start": "node ./App.js"
   },
   "keywords": [],
   "author": "",
