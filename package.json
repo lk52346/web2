@@ -9,7 +9,7 @@
     "cleanW": "if exist dist rmdir /s /q dist",
     "clean": "rm -rf dist",
     "copy-views": "cp -r src/views/ dist/views/",
-    "start": "node ./App.js"
+    "start": "node dist/App.js"
   },
   "keywords": [],
   "author": "",
