@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "npm run clean; tsc; ls; ls ..",
+    "build": "npm run clean; tsc; ls ./dist",
     "buildW": "npm run cleanW && tsc && node dist/App.js",
     "cleanW": "if exist dist rmdir /s /q dist",
     "clean": "rm -rf dist",
