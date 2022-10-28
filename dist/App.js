@@ -126,7 +126,6 @@ app.post('/dodajkomentar', requiresAuth(), function (req, res) { return __awaite
             case 0:
                 komentar = req.body;
                 komentar.komentator = req.oidc.user.email;
-                komentar.vrijeme = Date.now().toString();
                 return [4 /*yield*/, data.postKomentar(komentar)];
             case 1:
                 _a.sent();

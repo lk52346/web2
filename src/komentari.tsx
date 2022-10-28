@@ -5,6 +5,7 @@ export default function Komentari ({sviKomentari, isAdmin, username, kolo}){
       <div style={{marginLeft:100, marginBot:30}}>
         <h2>Komentari</h2>
         {sviKomentari.map(el => {
+          const datum = `${el.vrijeme.getDate()}.${el.vrijeme.getMonth()+1}.${el.vrijeme.getFullYear()} ${el.vrijeme.getHours()}:${el.vrijeme.getMinutes()}`
           return(
           <div>
             <hr></hr>
@@ -16,7 +17,7 @@ export default function Komentari ({sviKomentari, isAdmin, username, kolo}){
                     <input type="submit" value="Obriši komentar"></input>
                 </form>}
             </div>
-            <p>{el.vrijeme.toString()}</p>
+            <p>{datum}</p>
             {username==el.komentator ?
             <form action="/azurirajkomentar" method="post">
               <input type="hidden" name="id" value={el.id}></input>
@@ -27,11 +28,12 @@ export default function Komentari ({sviKomentari, isAdmin, username, kolo}){
           </div>
           )
         })}
+        {username &&
         <form action="/dodajkomentar" method="post">
           <input type="hidden" name="kolo" value={kolo}></input>
           <input name="tekst"></input>
           <input type="submit" value="Komentiraj"></input>
-        </form>
+        </form>}
       </div>
     );
 }

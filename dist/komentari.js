@@ -6,6 +6,7 @@ function Komentari(_a) {
     return (React.createElement("div", { style: { marginLeft: 100, marginBot: 30 } },
         React.createElement("h2", null, "Komentari"),
         sviKomentari.map(function (el) {
+            var datum = "".concat(el.vrijeme.getDate(), ".").concat(el.vrijeme.getMonth() + 1, ".").concat(el.vrijeme.getFullYear(), " ").concat(el.vrijeme.getHours(), ":").concat(el.vrijeme.getMinutes());
             return (React.createElement("div", null,
                 React.createElement("hr", null),
                 React.createElement("div", { style: { display: "flex" } },
@@ -14,7 +15,7 @@ function Komentari(_a) {
                         React.createElement("form", { action: "/obrisikomentar", method: "post" },
                             React.createElement("input", { type: "hidden", name: "id", value: el.id }),
                             React.createElement("input", { type: "submit", value: "Obri\u0161i komentar" }))),
-                React.createElement("p", null, el.vrijeme.toString()),
+                React.createElement("p", null, datum),
                 username == el.komentator ?
                     React.createElement("form", { action: "/azurirajkomentar", method: "post" },
                         React.createElement("input", { type: "hidden", name: "id", value: el.id }),
@@ -22,9 +23,10 @@ function Komentari(_a) {
                         React.createElement("input", { type: "submit", value: "Uredi komentar" })) : React.createElement("p", null, el.tekst),
                 React.createElement("hr", null)));
         }),
-        React.createElement("form", { action: "/dodajkomentar", method: "post" },
-            React.createElement("input", { type: "hidden", name: "kolo", value: kolo }),
-            React.createElement("input", { name: "tekst" }),
-            React.createElement("input", { type: "submit", value: "Komentiraj" }))));
+        username &&
+            React.createElement("form", { action: "/dodajkomentar", method: "post" },
+                React.createElement("input", { type: "hidden", name: "kolo", value: kolo }),
+                React.createElement("input", { name: "tekst" }),
+                React.createElement("input", { type: "submit", value: "Komentiraj" }))));
 }
 exports["default"] = Komentari;

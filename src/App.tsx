@@ -1,6 +1,5 @@
 import * as React from "react";
 require('dotenv').config()
-import Rezultati from './score'
 import Kola from './kola'
 import * as data from './data'
 import Tablica from "./tablica";
@@ -75,8 +74,6 @@ app.post('/azurirajkomentar', requiresAuth(), async(req, res) =>{
 app.post('/dodajkomentar', requiresAuth(), async(req, res) =>{
   var komentar = req.body;
   komentar.komentator = req.oidc.user.email;
-  const date = new Date();
-  komentar.vrijeme = date.toTimeString();
   await data.postKomentar(komentar)
   res.redirect('/');
 })

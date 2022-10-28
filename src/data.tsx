@@ -70,12 +70,14 @@ export async function getBodoviKluba(id:number) : Promise<number>{
 }
 
 export async function postRezultat(utakmica){
-    var domaci = (await pool.query(`SELECT id FROM klub WHERE ime LIKE '%${utakmica.imedomaci}%'`)).rows[0].id
-    var gosti = (await pool.query(`SELECT id FROM klub WHERE ime LIKE '%${utakmica.imegosti}%'`)).rows[0].id
+    await pool.query(`INSERT INTO klub(ime) SELECT '${utakmica.imedomaci}' WHERE NOT EXISTS(SELECT ime FROM klub WHERE LOWER(ime) LIKE '${utakmica.imedomaci.toLowerCase()}')`);
+    await pool.query(`INSERT INTO klub(ime) SELECT '${utakmica.imegosti}' WHERE NOT EXISTS(SELECT ime FROM klub WHERE LOWER(ime) LIKE '${utakmica.imegosti.toLowerCase()}')`);
+    var domaci = (await pool.query(`SELECT id FROM klub WHERE LOWER(ime) LIKE '${utakmica.imedomaci}'`)).rows[0].id
+    var gosti = (await pool.query(`SELECT id FROM klub WHERE LOWER(ime) LIKE '${utakmica.imegosti}'`)).rows[0].id
     await pool.query(
         `
         INSERT INTO utakmica(kolo, domaci, gosti, goldomaci, golgosti) VALUES
-        (${utakmica.kolo}, ${domaci}, ${gosti}, ${utakmica.goldomaci}, ${utakmica.golgosti})
+        (${utakmica.kolo}, ${domaci}, ${gosti}, ${utakmica.goldomaci=='' ? 'NULL' : utakmica.goldomaci}, ${utakmica.golgosti=='' ? 'NULL' : utakmica.golgosti})
         `
     );
 }
@@ -84,7 +86,7 @@ export async function postKomentar(komentar){
     await pool.query(
         `
         INSERT INTO komentar(komentator, tekst, vrijeme, kolo) VALUES
-        ('${komentar.komentator}', '${komentar.tekst}', '${komentar.vrijeme}', ${komentar.kolo})
+        ('${komentar.komentator}', '${komentar.tekst}', now(), ${komentar.kolo})
         `
     );
 }
@@ -92,7 +94,7 @@ export async function postKomentar(komentar){
 export async function azurirajRezultat(utakmica){
     await pool.query(
         `
-        UPDATE utakmica SET goldomaci = ${utakmica.goldomaci}, golgosti = ${utakmica.golgosti} WHERE id=${utakmica.id}
+        UPDATE utakmica SET goldomaci = ${utakmica.goldomaci=='' ? 'NULL' : utakmica.goldomaci}, golgosti = ${utakmica.golgosti=='' ? 'NULL' : utakmica.golgosti} WHERE id=${utakmica.id}
         `
     );
 }
@@ -100,12 +102,12 @@ export async function azurirajRezultat(utakmica){
 export async function azurirajKomentar(komentar){
     await pool.query(
         `
-        UPDATE komentar SET tekst = ${komentar.tekst} WHERE id=${komentar.id}
+        UPDATE komentar SET tekst = '${komentar.tekst}' WHERE id=${komentar.id}
         `
     );
 }
 
-export async function getKomentariKola(id:number) : Promise<number>{
+export async function getKomentariKola(id:number){
     return (await pool.query(
         `
         SELECT * FROM komentar WHERE kolo = ${id}

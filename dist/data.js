@@ -127,14 +127,20 @@ function postRezultat(utakmica) {
         var domaci, gosti;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, pool.query("SELECT id FROM klub WHERE ime LIKE '%".concat(utakmica.imedomaci, "%'"))];
+                case 0: return [4 /*yield*/, pool.query("INSERT INTO klub(ime) SELECT '".concat(utakmica.imedomaci, "' WHERE NOT EXISTS(SELECT ime FROM klub WHERE LOWER(ime) LIKE '").concat(utakmica.imedomaci.toLowerCase(), "')"))];
                 case 1:
-                    domaci = (_a.sent()).rows[0].id;
-                    return [4 /*yield*/, pool.query("SELECT id FROM klub WHERE ime LIKE '%".concat(utakmica.imegosti, "%'"))];
+                    _a.sent();
+                    return [4 /*yield*/, pool.query("INSERT INTO klub(ime) SELECT '".concat(utakmica.imegosti, "' WHERE NOT EXISTS(SELECT ime FROM klub WHERE LOWER(ime) LIKE '").concat(utakmica.imegosti.toLowerCase(), "')"))];
                 case 2:
-                    gosti = (_a.sent()).rows[0].id;
-                    return [4 /*yield*/, pool.query("\n        INSERT INTO utakmica(kolo, domaci, gosti, goldomaci, golgosti) VALUES\n        (".concat(utakmica.kolo, ", ").concat(domaci, ", ").concat(gosti, ", ").concat(utakmica.goldomaci, ", ").concat(utakmica.golgosti, ")\n        "))];
+                    _a.sent();
+                    return [4 /*yield*/, pool.query("SELECT id FROM klub WHERE LOWER(ime) LIKE '".concat(utakmica.imedomaci, "'"))];
                 case 3:
+                    domaci = (_a.sent()).rows[0].id;
+                    return [4 /*yield*/, pool.query("SELECT id FROM klub WHERE LOWER(ime) LIKE '".concat(utakmica.imegosti, "'"))];
+                case 4:
+                    gosti = (_a.sent()).rows[0].id;
+                    return [4 /*yield*/, pool.query("\n        INSERT INTO utakmica(kolo, domaci, gosti, goldomaci, golgosti) VALUES\n        (".concat(utakmica.kolo, ", ").concat(domaci, ", ").concat(gosti, ", ").concat(utakmica.goldomaci == '' ? 'NULL' : utakmica.goldomaci, ", ").concat(utakmica.golgosti == '' ? 'NULL' : utakmica.golgosti, ")\n        "))];
+                case 5:
                     _a.sent();
                     return [2 /*return*/];
             }
@@ -146,7 +152,7 @@ function postKomentar(komentar) {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, pool.query("\n        INSERT INTO komentar(komentator, tekst, vrijeme, kolo) VALUES\n        ('".concat(komentar.komentator, "', '").concat(komentar.tekst, "', '").concat(komentar.vrijeme, "', ").concat(komentar.kolo, ")\n        "))];
+                case 0: return [4 /*yield*/, pool.query("\n        INSERT INTO komentar(komentator, tekst, vrijeme, kolo) VALUES\n        ('".concat(komentar.komentator, "', '").concat(komentar.tekst, "', now(), ").concat(komentar.kolo, ")\n        "))];
                 case 1:
                     _a.sent();
                     return [2 /*return*/];
@@ -159,7 +165,7 @@ function azurirajRezultat(utakmica) {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, pool.query("\n        UPDATE utakmica SET goldomaci = ".concat(utakmica.goldomaci, ", golgosti = ").concat(utakmica.golgosti, " WHERE id=").concat(utakmica.id, "\n        "))];
+                case 0: return [4 /*yield*/, pool.query("\n        UPDATE utakmica SET goldomaci = ".concat(utakmica.goldomaci == '' ? 'NULL' : utakmica.goldomaci, ", golgosti = ").concat(utakmica.golgosti == '' ? 'NULL' : utakmica.golgosti, " WHERE id=").concat(utakmica.id, "\n        "))];
                 case 1:
                     _a.sent();
                     return [2 /*return*/];
@@ -172,7 +178,7 @@ function azurirajKomentar(komentar) {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, pool.query("\n        UPDATE komentar SET tekst = ".concat(komentar.tekst, " WHERE id=").concat(komentar.id, "\n        "))];
+                case 0: return [4 /*yield*/, pool.query("\n        UPDATE komentar SET tekst = '".concat(komentar.tekst, "' WHERE id=").concat(komentar.id, "\n        "))];
                 case 1:
                     _a.sent();
                     return [2 /*return*/];
