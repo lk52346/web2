@@ -13,7 +13,7 @@ function Tablica(_a) {
                 React.createElement("th", null, "Bodovi"),
                 React.createElement("th", null, "Golovi")),
             sviKlubovi.map(function (el, i) {
-                return (React.createElement("tr", null,
+                return (React.createElement("tr", { key: i },
                     React.createElement("td", null,
                         i + 1,
                         "."),

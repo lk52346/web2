@@ -62,6 +62,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
     extended: true
 }));
+app.use(express.static(__dirname + '../public'));
 app.get('/profile', requiresAuth(), function (req, res) {
     res.send(JSON.stringify(req.oidc.user));
 });
@@ -187,7 +188,7 @@ app.get('/', function (req, res) { return __awaiter(void 0, void 0, void 0, func
                     username = (_d = (_c = req.oidc.user) === null || _c === void 0 ? void 0 : _c.name) !== null && _d !== void 0 ? _d : (_e = req.oidc.user) === null || _e === void 0 ? void 0 : _e.sub;
                 }
                 isAdmin = isLoggedIn && (admins.includes(req.oidc.user.email));
-                res.send("\n        <div id=\"root\">\n            <h1>Velika Liga</h1>\n            <div>\n              <span>Dobrodo\u0161li".concat(isLoggedIn ? ", " + username : "", "!</span>\n              <span>\n                <form action=\"").concat(isLoggedIn ? "/logout" : "/login", "\">\n                  <input type=\"submit\" value=\"").concat(isLoggedIn ? "Logout" : "Login", "\" />\n                </form>\n              </span>\n            </div>\n            <div>").concat(ReactDOMServer.renderToString(React.createElement(kola_1["default"], { svaKola: svaKola, isAdmin: isAdmin, username: username })), "</div>\n            <div>").concat(ReactDOMServer.renderToString(React.createElement(tablica_1["default"], { sviKlubovi: sviKlubovi })), "</div>\n        </div>\n        "));
+                res.send("\n        <link rel=\"stylesheet\" type=\"text/css\" href=\"/styles.css\" />\n        <div id=\"root\">\n            <h1>Velika Liga</h1>\n            <div>\n              <span>Dobrodo\u0161li".concat(isLoggedIn ? ", " + username : "", "!</span>\n              <span>\n                <form action=\"").concat(isLoggedIn ? "/logout" : "/login", "\">\n                  <input type=\"submit\" value=\"").concat(isLoggedIn ? "Logout" : "Login", "\" />\n                </form>\n              </span>\n            </div>\n            <div>").concat(ReactDOMServer.renderToString(React.createElement(kola_1["default"], { svaKola: svaKola, isAdmin: isAdmin, username: username })), "</div>\n            <div>").concat(ReactDOMServer.renderToString(React.createElement(tablica_1["default"], { sviKlubovi: sviKlubovi })), "</div>\n        </div>\n        "));
                 return [2 /*return*/];
         }
     });

@@ -38,6 +38,8 @@ app.use(
   })
 )
 
+app.use(express.static(__dirname + '/public'));
+
 
 app.get('/profile', requiresAuth(), (req, res) => {
   res.send(JSON.stringify(req.oidc.user));
@@ -106,6 +108,7 @@ app.get('/', async (req, res) => {
 
     res.send(
         `
+        <link rel="stylesheet" type="text/css" href="/styles.css" />
         <div id="root">
             <h1>Velika Liga</h1>
             <div>

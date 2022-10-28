@@ -13,7 +13,7 @@ export default function Tablica ({sviKlubovi}){
                 </tr>
                 {sviKlubovi.map((el, i) => {
                 return(
-                    <tr>
+                    <tr key={i}>
                         <td>{i+1}.</td>
                         <td>{el.ime}</td>
                         <td>{el.bodovi}</td>

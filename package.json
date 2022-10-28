@@ -4,11 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "npm run clean; tsc; ls ./dist",
+    "build": "npm run clean; tsc; ls ./dist; npm run copy-public",
     "buildW": "npm run cleanW && tsc && node dist/App.js",
     "cleanW": "if exist dist rmdir /s /q dist",
     "clean": "rm -rf dist",
-    "copy-views": "cp -r src/views/ dist/views/",
+    "copy-public": "cp -r src/public/ dist/public/",
+    "copy-publicWS": "xcopy src/public dist/public /e /y",
+    "copy-publicW": "robocopy src/public dist/public /e /NFL /NDL /NJH /NJS /nc /ns /np",
     "start": "node dist/App.js"
   },
   "keywords": [],
