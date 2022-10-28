@@ -16,7 +16,7 @@ const bodyParser = require('body-parser')
 
 const { auth, requiresAuth } = require('express-openid-connect');
 
-const admins = ["luka.kusec@hotmail.com", "bomecmsnagbujctppr@tmmwj.net"]
+const admins = ["bomecmsnagbujctppr@tmmwj.net"]
 
 
 const config = {
@@ -109,15 +109,15 @@ app.get('/', async (req, res) => {
     res.send(
         `
         <link rel="stylesheet" type="text/css" href="/styles.css" />
-        <div id="root">
-            <h1>Velika Liga</h1>
-            <div>
-              <span>Dobrodošli${isLoggedIn ? ", " + username : ""}!</span>
-              <span>
+        <div id="root" class="glavno">
+            <h1 class="naslov">Velika Liga</h1>
+            <div class="dobrodosli">
+              <div>Dobrodošli${isLoggedIn ? ", " + username : ""}!</div>
+              <div>
                 <form action="${isLoggedIn ? "/logout" : "/login"}">
                   <input type="submit" value="${isLoggedIn ? "Logout" : "Login"}" />
                 </form>
-              </span>
+              </div>
             </div>
             <div>${ReactDOMServer.renderToString(<Kola svaKola={svaKola} isAdmin={isAdmin} username={username}/>)}</div>
             <div>${ReactDOMServer.renderToString(<Tablica sviKlubovi={sviKlubovi}/>)}</div>

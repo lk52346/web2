@@ -1,10 +1,9 @@
 import * as React from "react";
 export default function Tablica ({sviKlubovi}){
     return (
-        <div>
-            <hr/>
-            <h2>Poredak</h2>
-            <table>
+        <div className="tablicaKartica">
+            <div className="poredak">Poredak</div>
+            <table className="tablica">
                 <tr>
                     <th>#</th>
                     <th>Klub</th>
@@ -16,8 +15,8 @@ export default function Tablica ({sviKlubovi}){
                     <tr key={i}>
                         <td>{i+1}.</td>
                         <td>{el.ime}</td>
-                        <td>{el.bodovi}</td>
-                        <td>{el.golovi}</td>
+                        <td>{el.bodovi || '0'}</td>
+                        <td>{el.golovi || '0'}</td>
                     </tr>
                 )
                 })}

@@ -133,10 +133,10 @@ function postRezultat(utakmica) {
                     return [4 /*yield*/, pool.query("INSERT INTO klub(ime) SELECT '".concat(utakmica.imegosti, "' WHERE NOT EXISTS(SELECT ime FROM klub WHERE LOWER(ime) LIKE '").concat(utakmica.imegosti.toLowerCase(), "')"))];
                 case 2:
                     _a.sent();
-                    return [4 /*yield*/, pool.query("SELECT id FROM klub WHERE LOWER(ime) LIKE '".concat(utakmica.imedomaci, "'"))];
+                    return [4 /*yield*/, pool.query("SELECT id FROM klub WHERE LOWER(ime) LIKE LOWER('".concat(utakmica.imedomaci, "')"))];
                 case 3:
                     domaci = (_a.sent()).rows[0].id;
-                    return [4 /*yield*/, pool.query("SELECT id FROM klub WHERE LOWER(ime) LIKE '".concat(utakmica.imegosti, "'"))];
+                    return [4 /*yield*/, pool.query("SELECT id FROM klub WHERE LOWER(ime) LIKE LOWER('".concat(utakmica.imegosti, "')"))];
                 case 4:
                     gosti = (_a.sent()).rows[0].id;
                     return [4 /*yield*/, pool.query("\n        INSERT INTO utakmica(kolo, domaci, gosti, goldomaci, golgosti) VALUES\n        (".concat(utakmica.kolo, ", ").concat(domaci, ", ").concat(gosti, ", ").concat(utakmica.goldomaci == '' ? 'NULL' : utakmica.goldomaci, ", ").concat(utakmica.golgosti == '' ? 'NULL' : utakmica.golgosti, ")\n        "))];

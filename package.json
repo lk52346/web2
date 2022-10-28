@@ -5,12 +5,11 @@
   "main": "index.js",
   "scripts": {
     "build": "npm run clean; tsc; ls ./dist; npm run copy-public",
-    "buildW": "npm run cleanW && tsc && node dist/App.js",
+    "buildW": "npm run cleanW && tsc && npm run copy-publicW && node dist/App.js",
     "cleanW": "if exist dist rmdir /s /q dist",
     "clean": "rm -rf dist",
     "copy-public": "cp -r src/public/ dist/public/",
-    "copy-publicWS": "xcopy src/public dist/public /e /y",
-    "copy-publicW": "robocopy src/public dist/public /e /NFL /NDL /NJH /NJS /nc /ns /np",
+    "copy-publicW": "(robocopy src/public dist/public /MIR /NFL /NDL /NJH /NJS /nc /ns /np) ^& IF %ERRORLEVEL% LEQ 1 exit 0",
     "start": "node dist/App.js"
   },
   "keywords": [],

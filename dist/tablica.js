@@ -3,10 +3,9 @@ exports.__esModule = true;
 var React = require("react");
 function Tablica(_a) {
     var sviKlubovi = _a.sviKlubovi;
-    return (React.createElement("div", null,
-        React.createElement("hr", null),
-        React.createElement("h2", null, "Poredak"),
-        React.createElement("table", null,
+    return (React.createElement("div", { className: "tablicaKartica" },
+        React.createElement("div", { className: "poredak" }, "Poredak"),
+        React.createElement("table", { className: "tablica" },
             React.createElement("tr", null,
                 React.createElement("th", null, "#"),
                 React.createElement("th", null, "Klub"),
@@ -18,8 +17,8 @@ function Tablica(_a) {
                         i + 1,
                         "."),
                     React.createElement("td", null, el.ime),
-                    React.createElement("td", null, el.bodovi),
-                    React.createElement("td", null, el.golovi)));
+                    React.createElement("td", null, el.bodovi || '0'),
+                    React.createElement("td", null, el.golovi || '0')));
             }))));
 }
 exports["default"] = Tablica;

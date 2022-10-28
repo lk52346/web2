@@ -72,8 +72,8 @@ export async function getBodoviKluba(id:number) : Promise<number>{
 export async function postRezultat(utakmica){
     await pool.query(`INSERT INTO klub(ime) SELECT '${utakmica.imedomaci}' WHERE NOT EXISTS(SELECT ime FROM klub WHERE LOWER(ime) LIKE '${utakmica.imedomaci.toLowerCase()}')`);
     await pool.query(`INSERT INTO klub(ime) SELECT '${utakmica.imegosti}' WHERE NOT EXISTS(SELECT ime FROM klub WHERE LOWER(ime) LIKE '${utakmica.imegosti.toLowerCase()}')`);
-    var domaci = (await pool.query(`SELECT id FROM klub WHERE LOWER(ime) LIKE '${utakmica.imedomaci}'`)).rows[0].id
-    var gosti = (await pool.query(`SELECT id FROM klub WHERE LOWER(ime) LIKE '${utakmica.imegosti}'`)).rows[0].id
+    var domaci = (await pool.query(`SELECT id FROM klub WHERE LOWER(ime) LIKE LOWER('${utakmica.imedomaci}')`)).rows[0].id
+    var gosti = (await pool.query(`SELECT id FROM klub WHERE LOWER(ime) LIKE LOWER('${utakmica.imegosti}')`)).rows[0].id
     await pool.query(
         `
         INSERT INTO utakmica(kolo, domaci, gosti, goldomaci, golgosti) VALUES
