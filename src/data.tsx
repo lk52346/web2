@@ -23,7 +23,7 @@ export async function getUtakmiceByKolo(idKola : number){
     LEFT JOIN kolo ON kolo.id=utakmica.kolo
     LEFT JOIN klub klubDomaci ON klubDomaci.id=utakmica.domaci
     LEFT JOIN klub klubGosti ON klubGosti.id=utakmica.gosti
-    WHERE kolo.id = ${idKola}`);
+    WHERE kolo.id = ${idKola} ORDER BY utakmica.id`);
     return result.rows
 }
 
@@ -110,7 +110,7 @@ export async function azurirajKomentar(komentar){
 export async function getKomentariKola(id:number){
     return (await pool.query(
         `
-        SELECT * FROM komentar WHERE kolo = ${id}
+        SELECT * FROM komentar WHERE kolo = ${id} ORDER BY vrijeme
         `
     )).rows;
 }

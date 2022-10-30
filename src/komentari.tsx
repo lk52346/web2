@@ -5,7 +5,7 @@ export default function Komentari ({sviKomentari, isAdmin, username, kolo}){
       <details style={{marginLeft:100, marginBot:30}}>
         <summary>Komentari</summary>
         {sviKomentari.map((el, i) => {
-          const datum = `${el.vrijeme.getDate()}.${el.vrijeme.getMonth()+1}.${el.vrijeme.getFullYear()} ${el.vrijeme.getHours()}:${el.vrijeme.getMinutes()}`
+          const datum = `${el.vrijeme.getDate()}.${el.vrijeme.getMonth()+1}.${el.vrijeme.getFullYear()} ${el.vrijeme.getHours().toString().padStart(2, '0')}:${el.vrijeme.getMinutes().toString().padStart(2, '0')}`
           return(
           <div key={i}>
             <hr></hr>

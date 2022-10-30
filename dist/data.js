@@ -66,7 +66,7 @@ function getUtakmiceByKolo(idKola) {
         var result;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, pool.query("\n    SELECT utakmica.id, kolo.ime imeKola, utakmica.goldomaci, utakmica.golgosti, klubDomaci.ime domaci, klubGosti.ime gosti FROM utakmica\n    LEFT JOIN kolo ON kolo.id=utakmica.kolo\n    LEFT JOIN klub klubDomaci ON klubDomaci.id=utakmica.domaci\n    LEFT JOIN klub klubGosti ON klubGosti.id=utakmica.gosti\n    WHERE kolo.id = ".concat(idKola))];
+                case 0: return [4 /*yield*/, pool.query("\n    SELECT utakmica.id, kolo.ime imeKola, utakmica.goldomaci, utakmica.golgosti, klubDomaci.ime domaci, klubGosti.ime gosti FROM utakmica\n    LEFT JOIN kolo ON kolo.id=utakmica.kolo\n    LEFT JOIN klub klubDomaci ON klubDomaci.id=utakmica.domaci\n    LEFT JOIN klub klubGosti ON klubGosti.id=utakmica.gosti\n    WHERE kolo.id = ".concat(idKola, " ORDER BY utakmica.id"))];
                 case 1:
                     result = _a.sent();
                     return [2 /*return*/, result.rows];
@@ -191,7 +191,7 @@ function getKomentariKola(id) {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, pool.query("\n        SELECT * FROM komentar WHERE kolo = ".concat(id, "\n        "))];
+                case 0: return [4 /*yield*/, pool.query("\n        SELECT * FROM komentar WHERE kolo = ".concat(id, " ORDER BY vrijeme\n        "))];
                 case 1: return [2 /*return*/, (_a.sent()).rows];
             }
         });

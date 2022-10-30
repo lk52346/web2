@@ -6,7 +6,7 @@ function Komentari(_a) {
     return (React.createElement("details", { style: { marginLeft: 100, marginBot: 30 } },
         React.createElement("summary", null, "Komentari"),
         sviKomentari.map(function (el, i) {
-            var datum = "".concat(el.vrijeme.getDate(), ".").concat(el.vrijeme.getMonth() + 1, ".").concat(el.vrijeme.getFullYear(), " ").concat(el.vrijeme.getHours(), ":").concat(el.vrijeme.getMinutes());
+            var datum = "".concat(el.vrijeme.getDate(), ".").concat(el.vrijeme.getMonth() + 1, ".").concat(el.vrijeme.getFullYear(), " ").concat(el.vrijeme.getHours().toString().padStart(2, '0'), ":").concat(el.vrijeme.getMinutes().toString().padStart(2, '0'));
             return (React.createElement("div", { key: i },
                 React.createElement("hr", null),
                 React.createElement("div", { style: { display: "flex" } },
