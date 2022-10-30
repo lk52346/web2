@@ -55,7 +55,7 @@ var config = {
     authRequired: false,
     auth0Logout: true,
     secret: process.env.SECRET,
-    baseURL: externalUrl || "https://localhost:".concat(port),
+    baseURL: externalUrl && "http://localhost:".concat(port),
     clientID: process.env.CLIENT_ID,
     issuerBaseURL: 'https://dev-32t7tjpqcg4madc1.us.auth0.com'
 };
@@ -195,18 +195,22 @@ app.get('/', function (req, res) { return __awaiter(void 0, void 0, void 0, func
         }
     });
 }); });
-if (externalUrl) {
-    var hostname_1 = '127.0.0.1';
-    app.listen(port, hostname_1, function () {
-        console.log("Server locally running at http://".concat(hostname_1, ":").concat(port, "/ and from\n  outside on ").concat(externalUrl));
-    });
-}
-else {
-    https.createServer({
-        key: fs.readFileSync('server.key'),
-        cert: fs.readFileSync('server.cert')
-    }, app)
-        .listen(port, function () {
-        console.log("Server running at https://localhost:".concat(port, "/"));
-    });
-}
+app.listen(port, function () {
+    console.log("Server pokrenut!");
+});
+// if (externalUrl) {
+//   const hostname = '127.0.0.1';
+//   app.listen(port, hostname, () => {
+//   console.log(`Server locally running at http://${hostname}:${port}/ and from
+//   outside on ${externalUrl}`);
+//   });
+// }
+// else {
+//   https.createServer({
+//   key: fs.readFileSync('server.key'),
+//   cert: fs.readFileSync('server.cert')
+//   }, app)
+//   .listen(port, function () {
+//   console.log(`Server running at https://localhost:${port}/`);
+//   });
+// }
