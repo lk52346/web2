@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "npm run clean; tsc; ls ./dist; npm run copy-public",
-    "buildW": "npm run cleanW && tsc && npm run copy-publicW && node dist/App.js",
+    "build": "npm run clean; tsc; npm run copy-public",
+    "buildW": "npm run cleanW && tsc && npm run copy-publicW && npm start",
     "cleanW": "if exist dist rmdir /s /q dist",
     "clean": "rm -rf dist",
     "copy-public": "cp -r src/public/ dist/public/",

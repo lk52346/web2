@@ -12,7 +12,7 @@ const express = require('express')
 const app = express()
 
 const externalUrl = process.env.RENDER_EXTERNAL_URL;
-const port = externalUrl && process.env.PORT ? parseInt(process.env.PORT) : 4080;
+const port = externalUrl ? 4080 : parseInt(process.env.PORT);
 
 const bodyParser = require('body-parser')
 

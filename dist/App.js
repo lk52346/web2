@@ -47,7 +47,7 @@ var ReactDOMServer = require('react-dom/server');
 var express = require('express');
 var app = express();
 var externalUrl = process.env.RENDER_EXTERNAL_URL;
-var port = externalUrl && process.env.PORT ? parseInt(process.env.PORT) : 4080;
+var port = externalUrl ? 4080 : parseInt(process.env.PORT);
 var bodyParser = require('body-parser');
 var _a = require('express-openid-connect'), auth = _a.auth, requiresAuth = _a.requiresAuth;
 var admins = ["bomecmsnagbujctppr@tmmwj.net"];
