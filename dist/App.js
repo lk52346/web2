@@ -41,6 +41,8 @@ require('dotenv').config();
 var kola_1 = require("./kola");
 var data = require("./data");
 var tablica_1 = require("./tablica");
+var fs = require('fs');
+var https = require('https');
 var ReactDOMServer = require('react-dom/server');
 var express = require('express');
 var app = express();
@@ -48,12 +50,12 @@ var externalUrl = process.env.RENDER_EXTERNAL_URL;
 var port = externalUrl && process.env.PORT ? parseInt(process.env.PORT) : 4080;
 var bodyParser = require('body-parser');
 var _a = require('express-openid-connect'), auth = _a.auth, requiresAuth = _a.requiresAuth;
-var admins = ["luka.kusec@hotmail.com", "bomecmsnagbujctppr@tmmwj.net"];
+var admins = ["bomecmsnagbujctppr@tmmwj.net"];
 var config = {
     authRequired: false,
     auth0Logout: true,
     secret: process.env.SECRET,
-    baseURL: 'http://localhost:4080',
+    baseURL: externalUrl || "https://localhost:".concat(port),
     clientID: process.env.CLIENT_ID,
     issuerBaseURL: 'https://dev-32t7tjpqcg4madc1.us.auth0.com'
 };
@@ -193,6 +195,18 @@ app.get('/', function (req, res) { return __awaiter(void 0, void 0, void 0, func
         }
     });
 }); });
-app.listen(port, function () {
-    console.log("Aplikacija pokrenuta uspje\u0161no!");
-});
+if (externalUrl) {
+    var hostname_1 = '127.0.0.1';
+    app.listen(port, hostname_1, function () {
+        console.log("Server locally running at http://".concat(hostname_1, ":").concat(port, "/ and from\n  outside on ").concat(externalUrl));
+    });
+}
+else {
+    https.createServer({
+        key: fs.readFileSync('server.key'),
+        cert: fs.readFileSync('server.cert')
+    }, app)
+        .listen(port, function () {
+        console.log("Server running at https://localhost:".concat(port, "/"));
+    });
+}
